@@ -425,7 +425,10 @@ function gd(){
 }
 function ew(d,wk,g){
   if(!d.wks[wk])d.wks[wk]={};
-  if(!d.wks[wk][g])d.wks[wk][g]={checks:{},purpose:{text:'',status:'pending',penalty:0},status:'pending',reward:0,reviewAt:null,approvedAt:null};
+  if(!d.wks[wk][g]){
+    const defPur=(d.cfg&&d.cfg.girls&&d.cfg.girls[g]&&d.cfg.girls[g].defaultPurpose)||'';
+    d.wks[wk][g]={checks:{},purpose:{text:defPur,status:'pending',penalty:0},status:'pending',reward:0,reviewAt:null,approvedAt:null};
+  }
   return d.wks[wk][g];
 }
 
@@ -798,8 +801,8 @@ function buildTaskEditor(girl,d){
       return`<button class="dtog" style="${on?`background:${dg.hex};border-color:${dg.hex};color:#fff`:''}" onclick="tday('${girl}','${type}',${idx},${di})" title="${DF[di]}">${DS[di]}</button>`;
     }).join('');
     return`<div class="terow">
-      <input class="teemj" value="${t.emoji}" maxlength="2" onblur="tfield('${girl}','${type}',${idx},'emoji',this.value)">
-      <input class="tenm" value="${t.name}" placeholder="Nombre" onblur="tfield('${girl}','${type}',${idx},'name',this.value)">
+      <input id="emj-${girl}-${type}-${idx}" class="teemj" value="${t.emoji}" maxlength="2" onblur="tfield('${girl}','${type}',${idx},'emoji',this.value)">
+      <input id="nm-${girl}-${type}-${idx}" class="tenm" value="${t.name}" placeholder="Nombre" onblur="tfield('${girl}','${type}',${idx},'name',this.value)">
       <div class="tedays">${dbtns}</div>
       <button class="tedel" onclick="tdel('${girl}','${type}',${idx})">🗑️</button>
     </div>`;
@@ -818,12 +821,22 @@ function buildTaskEditor(girl,d){
       ${spcRows}
       ${gc.specialTasks.length<3?`<button class="addtsk sp" onclick="tadd('${girl}','spc')">+ Agregar tarea especial</button>`:'<div style="font-size:11px;color:var(--mu);padding:4px">Máx. 3 tareas</div>'}
     </div>
-    <div class="tesec">
+    <div class="tesec" style="border-bottom:1px solid var(--bd)">
       <div class="testit">💰 Recompensas</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="cfgit"><label>Mesada base ($)</label><input type="number" value="${gc.rewards.base}" min="0" step="100" onblur="trwd2('${girl}','base',this.value)"></div>
-        <div class="cfgit"><label>Bono especial ($)</label><input type="number" value="${gc.rewards.special}" min="0" step="100" onblur="trwd2('${girl}','special',this.value)"></div>
+        <div class="cfgit"><label>Mesada base ($)</label><input id="rwd-${girl}-base" type="number" value="${gc.rewards.base}" min="0" step="100" onblur="trwd2('${girl}','base',this.value)"></div>
+        <div class="cfgit"><label>Bono especial ($)</label><input id="rwd-${girl}-spc" type="number" value="${gc.rewards.special}" min="0" step="100" onblur="trwd2('${girl}','special',this.value)"></div>
       </div>
+    </div>
+    <div class="tesec" style="border-bottom:1px solid var(--bd)">
+      <div class="testit">🎯 Propósito de la semana</div>
+      <div class="cfgit">
+        <label style="font-size:11px;color:var(--mu)">Se cargará automáticamente cada semana nueva</label>
+        <input id="defpur-${girl}" type="text" value="${gc.defaultPurpose||''}" placeholder="Ej: Buen trato con sus hermanas" style="width:100%;box-sizing:border-box">
+      </div>
+    </div>
+    <div class="tesec" style="text-align:center">
+      <button onclick="saveCfgCard('${girl}')" style="background:${dg.hex};color:#fff;border:none;border-radius:10px;padding:10px 28px;font-size:14px;font-weight:700;cursor:pointer">💾 Guardar cambios</button>
     </div>
   </div>`;
 }
@@ -836,6 +849,28 @@ function tday(girl,type,idx,di){
 function tfield(girl,type,idx,field,val){
   const d=gd(),tasks=type==='spc'?d.cfg.girls[girl].specialTasks:d.cfg.girls[girl].tasks;
   tasks[idx][field]=val;SS(d);
+}
+function saveCfgCard(girl){
+  const d=gd(),gc=d.cfg.girls[girl];
+  gc.tasks.forEach((t,i)=>{
+    const emj=document.getElementById(`emj-${girl}-reg-${i}`);
+    const nm=document.getElementById(`nm-${girl}-reg-${i}`);
+    if(emj)t.emoji=emj.value;
+    if(nm)t.name=nm.value;
+  });
+  gc.specialTasks.forEach((t,i)=>{
+    const emj=document.getElementById(`emj-${girl}-spc-${i}`);
+    const nm=document.getElementById(`nm-${girl}-spc-${i}`);
+    if(emj)t.emoji=emj.value;
+    if(nm)t.name=nm.value;
+  });
+  const rb=document.getElementById(`rwd-${girl}-base`);
+  const rs=document.getElementById(`rwd-${girl}-spc`);
+  if(rb)gc.rewards.base=parseInt(rb.value)||0;
+  if(rs)gc.rewards.special=parseInt(rs.value)||0;
+  const pur=document.getElementById(`defpur-${girl}`);
+  if(pur)gc.defaultPurpose=pur.value.trim();
+  SS(d);toast('✅ Perfil guardado');
 }
 function tdel(girl,type,idx){
   if(!confirm('¿Eliminar esta tarea?'))return;

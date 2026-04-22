@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>🌟 Tareas de la Casa</title>
+<style>
+:root{
+  --ec:#DB2777;--el:#FCE7F3;--eg:linear-gradient(135deg,#DB2777,#F472B6);
+  --ic:#7C3AED;--il:#EDE9FE;--ig:linear-gradient(135deg,#7C3AED,#A78BFA);
+  --sc:#0369A1;--sg:linear-gradient(135deg,#0369A1,#38BDF8);
+  --gn:#059669;--gl:#D1FAE5;--am:#D97706;--al:#FEF3C7;--rd:#DC2626;--rl:#FEE2E2;
+  --bg:#F3F4F6;--wh:#fff;--tx:#111827;--mu:#6B7280;--bd:#E5E7EB;
+  --sh:0 2px 12px rgba(0,0,0,.08);--shl:0 8px 30px rgba(0,0,0,.12);
+  --r:18px;--rs:10px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;max-width:480px;margin:0 auto;overflow-x:hidden}
+button,input{font-family:inherit}
+.scr{display:none;min-height:100vh;flex-direction:column}
+.scr.on{display:flex}
+
+/* HOME */
+#sh{background:linear-gradient(160deg,#4F46E5,#7C3AED 50%,#DB2777);align-items:center;justify-content:flex-start;padding:56px 24px 40px}
+.hlogo{font-size:72px;animation:fl 3s ease-in-out infinite;text-align:center}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.htitle{font-size:28px;font-weight:900;color:#fff;text-align:center;margin-top:8px}
+.hsub{font-size:14px;color:rgba(255,255,255,.8);text-align:center;margin-top:4px}
+.hwk{margin:18px auto 28px;background:rgba(255,255,255,.2);border-radius:30px;padding:7px 18px;color:#fff;font-size:13px;font-weight:600}
+.hcards{display:flex;flex-direction:column;gap:14px;width:100%}
+.hcard{background:#fff;border-radius:var(--r);padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;border:none;width:100%;text-align:left;box-shadow:var(--shl);transition:transform .15s}
+.hcard:active{transform:scale(.97)}
+.hav{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.hinfo{flex:1}.hname{font-size:18px;font-weight:800}.hmeta{font-size:12px;color:var(--mu);margin-top:2px}
+.hbar{height:6px;background:var(--bd);border-radius:3px;margin-top:8px;overflow:hidden}
+.hbf{height:100%;border-radius:3px;transition:width .5s}
+.harr{font-size:20px;color:var(--mu)}
+.hsbtn{margin-top:28px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:30px;padding:12px 28px;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+
+/* PIN */
+#sp{align-items:center;justify-content:center;padding:40px 24px;background:var(--bg)}
+.pav{font-size:60px;margin-bottom:6px}
+.ptitle{font-size:22px;font-weight:800;text-align:center}
+.psub{font-size:14px;color:var(--mu);text-align:center;margin-top:4px;margin-bottom:28px}
+.pdots{display:flex;gap:14px;margin-bottom:30px}
+.pd{width:16px;height:16px;border-radius:50%;border:2.5px solid var(--bd);transition:all .2s}
+.pd.on{border-color:currentColor;background:currentColor;transform:scale(1.1)}
+.ppad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:270px}
+.pk{height:62px;background:#fff;border:none;border-radius:var(--rs);font-size:22px;font-weight:700;cursor:pointer;box-shadow:var(--sh);transition:transform .12s;display:flex;align-items:center;justify-content:center}
+.pk:active{transform:scale(.91);box-shadow:none}
+.pk.del{font-size:17px}.pk.bl{background:transparent;box-shadow:none;cursor:default}
+.perr{color:var(--rd);font-size:13px;font-weight:600;margin-top:14px;text-align:center;animation:shk .35s ease}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pforg{margin-top:16px;background:none;border:none;color:var(--mu);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+.pvolver{margin-top:10px;background:none;border:none;color:var(--mu);font-size:13px;font-weight:600;cursor:pointer}
+
+/* TASKS */
+#st{padding-bottom:36px}
+.thd{padding:20px 16px 16px;color:#fff}
+.thdt{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.thdbk{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.25);border:none;color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.thdname{font-size:22px;font-weight:900}
+.thdwk{font-size:12px;opacity:.85;margin-top:1px}
+.tpl{display:flex;justify-content:space-between;font-size:13px;opacity:.9;margin-bottom:6px}
+.tpbg{height:10px;background:rgba(255,255,255,.3);border-radius:5px;overflow:hidden}
+.tpf{height:100%;background:#fff;border-radius:5px;transition:width .5s}
+.trwd{margin-top:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600}
+
+/* STAT CARDS */
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px 0}
+.scard{background:#fff;border-radius:var(--rs);padding:12px 10px;text-align:center;box-shadow:var(--sh)}
+.slbl{font-size:10px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.6px}
+.snums{font-size:26px;font-weight:900;line-height:1.1;margin:4px 0 2px}
+.snums span{font-size:14px;font-weight:600;color:var(--mu)}
+.ssub{font-size:10px;color:var(--mu)}
+.sbar{height:4px;background:var(--bd);border-radius:2px;margin-top:6px;overflow:hidden}
+.sbf{height:100%;border-radius:2px;transition:width .5s}
+
+/* SECTION LABEL */
+.slabel{display:flex;align-items:center;gap:8px;padding:14px 16px 6px;font-size:11px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.6px}
+
+/* TASK TABLE */
+.twrap{margin:0 16px;background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.ttbl{width:100%;border-collapse:collapse}
+.ttbl thead tr{background:var(--bg);border-bottom:2px solid var(--bd)}
+.thn{text-align:left;padding:9px 10px 9px 14px;font-size:10px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;min-width:110px}
+.thd2{width:38px;text-align:center;font-size:10px;font-weight:800;color:var(--mu);text-transform:uppercase;padding:6px 2px}
+.thd2.tdy{color:var(--am)}.tpip{width:5px;height:5px;border-radius:50%;background:var(--am);margin:2px auto 0}
+.ttbl tbody tr{border-bottom:1px solid var(--bd)}
+.ttbl tbody tr:last-child{border-bottom:none}
+.ttbl tbody tr.adn .tnt{color:var(--gn)}
+.tdname{padding:11px 8px 11px 14px}
+.tdni{display:flex;align-items:center;gap:8px}
+.te{font-size:17px;flex-shrink:0}
+.tnt{font-size:12px;font-weight:700;line-height:1.3;color:var(--tx)}
+.tdd{text-align:center;padding:6px 2px;vertical-align:middle}
+.tdd.tbg{background:rgba(217,119,6,.05)}
+.tdd.na{background:#F9FAFB}
+.ckb{width:32px;height:32px;border-radius:50%;border:2px solid var(--bd);background:#fff;cursor:pointer;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transition:all .18s;color:transparent}
+.ckb:active:not(.lk){transform:scale(.86)}
+.ckb.dn{background:var(--gn);border-color:var(--gn);color:#fff}
+.ckb.lk{cursor:default}
+.tdd.na .nad{color:var(--bd);font-size:16px;display:block;line-height:32px}
+
+/* SPECIAL TASK */
+.stwrap{margin:0 16px;background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;border-top:3px solid var(--am)}
+
+/* PROPÓSITO CARD (girl view) */
+.pcrd{margin:0 16px;background:#fff;border-radius:var(--r);box-shadow:var(--sh);border-top:3px solid #8B5CF6;padding:14px 16px}
+.plbl{font-size:10px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.ptxt{font-size:15px;font-weight:700;line-height:1.4;margin-bottom:6px}
+.pst{font-size:13px;color:var(--mu)}
+
+/* STATUS BANNER */
+.sbanner{margin:10px 16px 0;padding:11px 14px;border-radius:var(--rs);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.sb-pending_review{background:#FEF9C3;color:#854D0E}
+.sb-approved{background:var(--gl);color:#065F46}
+.sb-rejected{background:var(--rl);color:#991B1B}
+
+/* REVIEW BTN */
+.rwrap{padding:14px 16px 0}
+.rbtn{width:100%;padding:15px;border:none;border-radius:var(--r);font-size:15px;font-weight:800;color:#fff;cursor:pointer;transition:transform .15s,opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.rbtn:active{transform:scale(.97)}
+.rbtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* SUPERVISOR */
+#ss{padding-bottom:40px}
+.suphd{background:var(--sg);padding:22px 20px 18px;color:#fff}
+.suphdtp{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.supbk{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.25);border:none;color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.suptit{font-size:20px;font-weight:800}
+.supsub{font-size:12px;opacity:.85}
+.suptabs{display:flex;background:#fff;border-bottom:2px solid var(--bd);padding:0 16px;overflow-x:auto}
+.stab{padding:12px 18px;font-size:13px;font-weight:700;border:none;background:none;cursor:pointer;color:var(--mu);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s}
+.stab.on{color:var(--sc);border-bottom-color:var(--sc)}
+.sbody{padding:16px}
+
+/* REVIEW CARD */
+.rcard{background:#fff;border-radius:var(--r);padding:18px;box-shadow:var(--sh);margin-bottom:14px}
+.rcdhd{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.rcdav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.rcdnm{font-size:17px;font-weight:800}
+.rcdst{font-size:12px;color:var(--mu)}
+.rcdprw{display:flex;justify-content:space-between;font-size:12px;color:var(--mu);margin-bottom:5px}
+.rcdpbg{height:7px;background:var(--bd);border-radius:4px;overflow:hidden;margin-bottom:10px}
+.rcdpf{height:100%;border-radius:4px;transition:width .5s}
+.trl{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.tri{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:9px;background:var(--bg)}
+.trie{font-size:16px}.trin{flex:1;font-size:12px;font-weight:600}.tric{font-size:11px;color:var(--mu)}
+.trid{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.trid.full{background:var(--gl);color:#065F46}.trid.part{background:var(--al);color:var(--am)}.trid.none{background:var(--rl);color:var(--rd)}
+
+/* PROPÓSITO EDITOR (supervisor) */
+.pedit{background:#F5F3FF;border-radius:var(--rs);padding:12px;margin-bottom:12px;border:1px solid #DDD6FE}
+.petit{font-size:11px;font-weight:800;color:#5B21B6;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.petxt{width:100%;padding:9px 11px;border:1.5px solid #DDD6FE;border-radius:var(--rs);font-size:13px;background:#fff;outline:none}
+.pebts{display:flex;gap:7px;margin-top:8px}
+.pebt{flex:1;padding:8px 4px;border:1.5px solid var(--bd);border-radius:8px;background:#fff;font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.pebt.sg{background:var(--gl);border-color:var(--gn);color:#065F46}
+.pebt.sr{background:var(--rl);border-color:var(--rd);color:var(--rd)}
+.pebt.sa{background:var(--al);border-color:var(--am);color:var(--am)}
+.pepen{margin-top:8px}
+.pepen label{font-size:11px;font-weight:700;color:var(--mu);display:block;margin-bottom:4px}
+.pepen input{width:100%;padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--rs);font-size:14px;background:#fff}
+
+/* REWARD BREAKDOWN */
+.rbd{background:var(--bg);border-radius:var(--rs);padding:12px;margin-top:4px}
+.rbdtit{font-size:11px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.rbdrow{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
+.rbdg{color:var(--gn);font-weight:700}.rbdmu{color:var(--mu)}.rbdrd{color:var(--rd);font-weight:700}
+.rbddiv{height:1px;background:var(--bd);margin:8px 0}
+.rbdtot{display:flex;justify-content:space-between;font-size:16px;font-weight:900}
+.cfmbts{display:flex;gap:10px;margin-top:12px}
+.bapr,.brej{flex:1;padding:11px;border:none;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer}
+.bapr{background:var(--gl);color:#065F46}.brej{background:var(--rl);color:var(--rd)}
+.bcfm{width:100%;padding:13px;background:var(--sc);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:800;cursor:pointer;margin-top:10px}
+.bcfm:disabled{opacity:.45;cursor:not-allowed}
+
+/* TASK EDITOR */
+.tecrd{background:#fff;border-radius:var(--r);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh)}
+.tehdr{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.tesec{padding:10px 14px}
+.testit{font-size:11px;font-weight:800;color:var(--tx);margin-bottom:8px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px}
+.tebdg{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;background:var(--gl);color:var(--gn)}
+.terow{display:flex;align-items:center;gap:5px;padding:6px 0;border-bottom:1px solid var(--bd)}
+.terow:last-child{border-bottom:none}
+.teemj{width:36px;padding:4px;border:1.5px solid var(--bd);border-radius:6px;font-size:15px;text-align:center;background:#fff;outline:none}
+.tenm{flex:1;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:12px;background:#fff;outline:none}
+.tedays{display:flex;gap:2px;flex-shrink:0}
+.dtog{width:22px;height:22px;border-radius:4px;border:1.5px solid var(--bd);background:#fff;font-size:8px;font-weight:800;color:var(--mu);cursor:pointer;transition:all .15s}
+.tedel{width:28px;height:28px;border:none;background:none;cursor:pointer;font-size:13px;opacity:.6}
+.tedel:hover{opacity:1}
+.addtsk{width:100%;padding:8px;margin-top:6px;background:none;border:1.5px dashed var(--bd);border-radius:var(--rs);color:var(--mu);font-size:12px;font-weight:700;cursor:pointer}
+.addtsk:hover{border-color:var(--gn);color:var(--gn)}
+.addtsk.sp:hover{border-color:var(--am);color:var(--am)}
+
+/* CONFIG */
+.cfgsec{padding:16px}
+.cfgtit{font-size:15px;font-weight:800;margin-bottom:14px}
+.cfggrp{display:flex;flex-direction:column;gap:11px}
+.cfgit label{font-size:12px;font-weight:700;color:var(--mu);display:block;margin-bottom:4px}
+.cfgit input{width:100%;padding:11px 13px;border:2px solid var(--bd);border-radius:var(--rs);font-size:15px;outline:none;background:#fff}
+.cfgit input:focus{border-color:var(--sc)}
+.bsave{width:100%;padding:13px;background:var(--sc);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:800;cursor:pointer;margin-top:10px}
+.cfgdiv{height:1px;background:var(--bd);margin:20px 0}
+.bdng{width:100%;padding:11px;background:var(--rl);color:var(--rd);border:none;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;margin-top:8px}
+.girl-toggle{display:flex;background:var(--bg);border-radius:var(--rs);padding:3px;margin-bottom:14px}
+.gtog{flex:1;padding:8px;border:none;background:none;border-radius:calc(var(--rs) - 3px);font-size:13px;font-weight:700;cursor:pointer;color:var(--mu)}
+.gtog.on{background:#fff;box-shadow:var(--sh)}
+
+/* HISTORY */
+#shist{padding-bottom:40px}
+.histhd{padding:22px 20px 18px;background:var(--sg);color:#fff}
+.histhdtp{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.histtit{font-size:20px;font-weight:800}
+.histsub{font-size:12px;opacity:.85}
+.histwk{background:#fff;margin:12px 16px 0;border-radius:var(--r);padding:15px;box-shadow:var(--sh)}
+.histwkhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.histwklbl{font-size:14px;font-weight:800}
+.histwkdt{font-size:11px;color:var(--mu)}
+.histgls{display:flex;gap:10px}
+.histgl{flex:1;padding:10px;border-radius:10px;text-align:center;background:var(--bg)}
+.histglnm{font-size:11px;font-weight:800;margin-bottom:4px}
+.histglpct{font-size:22px;font-weight:900}
+.histglrwd{font-size:10px;color:var(--mu);margin-top:2px}
+.hbdg{display:inline-block;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:800;margin-top:5px;text-transform:uppercase;letter-spacing:.5px}
+.hba{background:var(--gl);color:#065F46}.hbr{background:var(--rl);color:var(--rd)}
+.hbp{background:var(--al);color:var(--am)}.hbpr{background:#E0F2FE;color:#0369A1}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:11px 22px;border-radius:30px;font-size:14px;font-weight:600;box-shadow:var(--shl);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw}
+.toast.on{opacity:1}
+
+/* CONFETTI */
+.ccwrap{position:fixed;inset:0;pointer-events:none;z-index:1999;overflow:hidden}
+.cc{position:absolute;border-radius:2px;opacity:0;animation:ccf var(--d,2.5s) var(--dl,0s) ease-in forwards}
+@keyframes ccf{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* CELEBRATION */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:2000;opacity:0;pointer-events:none;transition:opacity .3s}
+.cov.on{opacity:1;pointer-events:all}
+.ccrd{background:#fff;border-radius:24px;padding:38px 28px;text-align:center;max-width:320px;width:88%;transform:scale(.8);transition:transform .3s}
+.cov.on .ccrd{transform:scale(1)}
+.cemj{font-size:68px;display:block;margin-bottom:10px}
+.ctit{font-size:22px;font-weight:900;margin-bottom:7px}
+.cmsg{font-size:14px;color:var(--mu);margin-bottom:22px;line-height:1.5}
+.cbtn{padding:13px 30px;border:none;border-radius:30px;font-size:15px;font-weight:800;color:#fff;cursor:pointer}
+
+.empty{text-align:center;padding:40px 20px;color:var(--mu)}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<div id="loading" style="position:fixed;inset:0;background:#F3F4F6;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999">
+  <div style="font-size:64px;animation:fl 1s ease-in-out infinite">🏠</div>
+  <div style="margin-top:16px;font-size:15px;font-weight:700;color:#6B7280">Conectando...</div>
+</div>
+
+<!-- HOME -->
+<section class="scr on" id="sh">
+  <div class="hlogo">🏠</div>
+  <div class="htitle">Tareas de la Casa</div>
+  <div class="hsub">¡Gana tu recompensa semanal!</div>
+  <div class="hwk" id="hwk">Semana actual</div>
+  <div class="hcards">
+    <button class="hcard" onclick="pin('emi')">
+      <div class="hav" style="background:var(--el)">🌸</div>
+      <div class="hinfo">
+        <div class="hname" style="color:var(--ec)">Emi</div>
+        <div class="hmeta" id="em-meta">9 años</div>
+        <div class="hbar"><div class="hbf" id="em-bar" style="background:var(--ec);width:0%"></div></div>
+      </div>
+      <div class="harr">›</div>
+    </button>
+    <button class="hcard" onclick="pin('isi')">
+      <div class="hav" style="background:var(--il)">⭐</div>
+      <div class="hinfo">
+        <div class="hname" style="color:var(--ic)">Isi</div>
+        <div class="hmeta" id="is-meta">11 años</div>
+        <div class="hbar"><div class="hbf" id="is-bar" style="background:var(--ic);width:0%"></div></div>
+      </div>
+      <div class="harr">›</div>
+    </button>
+    <button class="hcard" onclick="pin('aug')">
+      <div class="hav" style="background:#CFFAFE">🚀</div>
+      <div class="hinfo">
+        <div class="hname" style="color:#0891B2">Augusto</div>
+        <div class="hmeta" id="au-meta">6 años</div>
+        <div class="hbar"><div class="hbf" id="au-bar" style="background:#0891B2;width:0%"></div></div>
+      </div>
+      <div class="harr">›</div>
+    </button>
+  </div>
+  <button class="hsbtn" onclick="pin('sup')">🔐 Supervisor</button>
+</section>
+
+<!-- PIN -->
+<section class="scr" id="sp">
+  <div class="pav" id="pav">🌸</div>
+  <div class="ptitle" id="ptit">¡Hola!</div>
+  <div class="psub" id="psub">Ingresa tu PIN de 4 dígitos</div>
+  <div class="pdots">
+    <div class="pd" id="d0"></div><div class="pd" id="d1"></div>
+    <div class="pd" id="d2"></div><div class="pd" id="d3"></div>
+  </div>
+  <div class="ppad">
+    <button class="pk" onclick="pk('1')">1</button><button class="pk" onclick="pk('2')">2</button><button class="pk" onclick="pk('3')">3</button>
+    <button class="pk" onclick="pk('4')">4</button><button class="pk" onclick="pk('5')">5</button><button class="pk" onclick="pk('6')">6</button>
+    <button class="pk" onclick="pk('7')">7</button><button class="pk" onclick="pk('8')">8</button><button class="pk" onclick="pk('9')">9</button>
+    <button class="pk bl"></button><button class="pk" onclick="pk('0')">0</button><button class="pk del" onclick="pdel()">⌫</button>
+  </div>
+  <div class="perr" id="perr" style="display:none"></div>
+  <button class="pforg" onclick="forgotPin()">¿Olvidaste tu PIN? 📧</button>
+  <button class="pvolver" onclick="home()">← Volver</button>
+</section>
+
+<!-- TASKS -->
+<section class="scr" id="st">
+  <div class="thd" id="thd">
+    <div class="thdt">
+      <button class="thdbk" onclick="home()">←</button>
+      <div>
+        <div class="thdname" id="thdname">Emi 🌸</div>
+        <div class="thdwk" id="thdwk">Semana actual</div>
+      </div>
+    </div>
+    <div class="tpl"><span id="tpl">0 de 0</span><span id="tpct">0%</span></div>
+    <div class="tpbg"><div class="tpf" id="tpf" style="width:0%"></div></div>
+    <div class="trwd" id="trwd">💰 $0</div>
+  </div>
+  <div class="srow">
+    <div class="scard">
+      <div class="slbl">📅 Hoy</div>
+      <div class="snums" id="stn">0 <span>/ 0</span></div>
+      <div class="ssub" id="sts">tareas del día</div>
+      <div class="sbar"><div class="sbf" id="stb" style="width:0%"></div></div>
+    </div>
+    <div class="scard">
+      <div class="slbl">📊 Semana</div>
+      <div class="snums" id="swn">0 <span>/ 0</span></div>
+      <div class="ssub" id="sws">completadas</div>
+      <div class="sbar"><div class="sbf" id="swb" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div id="tcontent"></div>
+  <div id="tstatus"></div>
+  <div class="rwrap"><button class="rbtn" id="rbtn" onclick="reqReview()">📩 Pedir revisión</button></div>
+</section>
+
+<!-- SUPERVISOR -->
+<section class="scr" id="ss">
+  <div class="suphd">
+    <div class="suphdtp">
+      <button class="supbk" onclick="home()">←</button>
+      <div><div class="suptit">Supervisor</div><div class="supsub" id="supwk">Semana actual</div></div>
+    </div>
+  </div>
+  <div class="suptabs">
+    <button class="stab on" onclick="stab('rv',this)">✅ Revisar</button>
+    <button class="stab" onclick="stab('hi',this)">📊 Historial</button>
+    <button class="stab" onclick="stab('cf',this)">⚙️ Config</button>
+  </div>
+  <div class="sbody" id="sbody"></div>
+</section>
+
+<div class="ccwrap" id="ccw"></div>
+<div class="cov" id="cov">
+  <div class="ccrd">
+    <span class="cemj" id="cemj">🎉</span>
+    <div class="ctit" id="ctit">¡Genial!</div>
+    <div class="cmsg" id="cmsg"></div>
+    <button class="cbtn" id="cbtn" onclick="closeCeleb()">¡Genial!</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══ DEFAULTS ══ */
+const D={
+  emi:{name:'Emi',age:9,emoji:'🌸',c:'var(--ec)',l:'var(--el)',g:'var(--eg)',hex:'#DB2777',pd:'1234',
+    tasks:[
+      {id:'e1',name:'Hacer la cama',emoji:'🛏️',schedule:[0,1,2,3,4,5,6]},
+      {id:'e2',name:'Tareas y estudiar con tiempo',emoji:'📚',schedule:[0,1,2,3,4]},
+      {id:'e3',name:'Pieza ordenada antes de dormir',emoji:'🧹',schedule:[0,1,2,3,4,5,6]},
+      {id:'e4',name:'Ropa lista para mañana',emoji:'👗',schedule:[0,1,2,3]}
+    ],
+    specialTasks:[{id:'es1',name:'Lavar ropa en la lavadora',emoji:'🫧',schedule:[4]}],
+    rewards:{base:1000,special:1000}
+  },
+  isi:{name:'Isi',age:11,emoji:'⭐',c:'var(--ic)',l:'var(--il)',g:'var(--ig)',hex:'#7C3AED',pd:'5678',
+    tasks:[
+      {id:'i1',name:'Hacer la cama',emoji:'🛏️',schedule:[0,1,2,3,4,5,6]},
+      {id:'i2',name:'Tareas y estudiar con tiempo',emoji:'📚',schedule:[0,1,2,3,4]},
+      {id:'i3',name:'Pieza ordenada antes de dormir',emoji:'🧹',schedule:[0,1,2,3,4,5,6]},
+      {id:'i4',name:'Ropa lista para mañana',emoji:'👗',schedule:[0,1,2,3]}
+    ],
+    specialTasks:[{id:'is1',name:'Poner la mesa',emoji:'🍽️',schedule:[0,1,2,3,4,5,6]}],
+    rewards:{base:1000,special:1000}
+  },
+  aug:{name:'Augusto',age:6,emoji:'🚀',c:'#0891B2',l:'#CFFAFE',g:'linear-gradient(135deg,#0891B2,#67E8F9)',hex:'#0891B2',pd:'0000',
+    tasks:[
+      {id:'a1',name:'Hacer la cama',emoji:'🛏️',schedule:[0,1,2,3,4,5,6]},
+      {id:'a2',name:'Tareas y estudiar',emoji:'📚',schedule:[0,1,2,3,4]},
+      {id:'a3',name:'Pieza ordenada',emoji:'🧸',schedule:[0,1,2,3,4,5,6]},
+      {id:'a4',name:'Ropa lista para mañana',emoji:'👗',schedule:[0,1,2,3]}
+    ],
+    specialTasks:[{id:'as1',name:'Tarea especial',emoji:'⭐',schedule:[4]}],
+    rewards:{base:1000,special:500}
+  }
+};
+const DS=['L','M','X','J','V','S','D'];
+const DF=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+/* ══ FIREBASE ══ */
+firebase.initializeApp({
+  apiKey:"AIzaSyBwef_67qTf-jbPRIyIvRSWzEKE12XAzdc",
+  authDomain:"tareas-casa-ba57c.firebaseapp.com",
+  databaseURL:"https://tareas-casa-ba57c-default-rtdb.firebaseio.com",
+  projectId:"tareas-casa-ba57c",
+  storageBucket:"tareas-casa-ba57c.firebasestorage.app",
+  messagingSenderId:"128632768995",
+  appId:"1:128632768995:web:ce82c457161bfbae6638d6"
+});
+const _db=firebase.database();
+const _ref=_db.ref('data');
+let _cache=null,_lastWrite=0;
+
+/* ══ STORAGE ══ */
+const LS=()=>_cache||{};
+const SS=(d)=>{_cache=d;_lastWrite=Date.now();_ref.set(d);};
+function initFirebase(){
+  return new Promise(resolve=>{
+    _ref.once('value',snap=>{
+      const fb=snap.val();
+      if(fb){_cache=fb;}
+      else{
+        try{const loc=JSON.parse(localStorage.getItem('ta')||'null');if(loc){_cache=loc;_ref.set(loc);}else _cache={};}
+        catch{_cache={};}
+      }
+      resolve();
+    });
+  });
+}
+function gd(){
+  let d=LS();
+  if(!d.cfg)d.cfg={
+    pins:{emi:D.emi.pd,isi:D.isi.pd,aug:D.aug.pd,sup:'9999'},
+    email:'augustort@gmail.com',
+    girls:{
+      emi:{tasks:JSON.parse(JSON.stringify(D.emi.tasks)),specialTasks:JSON.parse(JSON.stringify(D.emi.specialTasks)),rewards:{...D.emi.rewards}},
+      isi:{tasks:JSON.parse(JSON.stringify(D.isi.tasks)),specialTasks:JSON.parse(JSON.stringify(D.isi.specialTasks)),rewards:{...D.isi.rewards}},
+      aug:{tasks:JSON.parse(JSON.stringify(D.aug.tasks)),specialTasks:JSON.parse(JSON.stringify(D.aug.specialTasks)),rewards:{...D.aug.rewards}}
+    }
+  };
+  if(!d.wks)d.wks={};
+  return d;
+}
+function ew(d,wk,g){
+  if(!d.wks[wk])d.wks[wk]={};
+  if(!d.wks[wk][g]){
+    const defPur=(d.cfg&&d.cfg.girls&&d.cfg.girls[g]&&d.cfg.girls[g].defaultPurpose)||'';
+    d.wks[wk][g]={checks:{},purpose:{text:defPur,status:'pending',penalty:0},status:'pending',reward:0,reviewAt:null,approvedAt:null};
+  }
+  return d.wks[wk][g];
+}
+
+/* ══ WEEK UTILS ══ */
+function wkey(date){
+  const d=date?new Date(date):new Date(),dy=d.getDay();
+  const mon=new Date(d.getFullYear(),d.getMonth(),d.getDate()-dy+(dy===0?-6:1));
+  mon.setHours(0,0,0,0);
+  const yr=mon.getFullYear(),j4=new Date(yr,0,4);
+  const wn=Math.ceil(((mon-new Date(yr,0,1))/86400000+j4.getDay()+1)/7);
+  return`${yr}-W${String(wn).padStart(2,'0')}`;
+}
+function wmon(wk){
+  const[yr,w]=wk.split('-W'),j4=new Date(parseInt(yr),0,4);
+  const s=new Date(j4);s.setDate(j4.getDate()-((j4.getDay()+6)%7)+(parseInt(w)-1)*7);return s;
+}
+function wfmt(wk){
+  const m=wmon(wk),s=new Date(m);s.setDate(m.getDate()+6);
+  return`${m.getDate()}/${m.getMonth()+1} – ${s.getDate()}/${s.getMonth()+1}/${s.getFullYear()}`;
+}
+const cwk=()=>wkey();
+const tdi=()=>(new Date().getDay()+6)%7;
+
+/* ══ PROGRESS ══ */
+function gp(wd,tasks){
+  let t=0,dn=0;const ch=wd?.checks||{};
+  tasks.forEach(tk=>{t+=tk.schedule.length;tk.schedule.forEach(i=>{if(ch[`${tk.id}_${i}`])dn++;})});
+  return{t,dn,pct:t?Math.round(dn/t*100):0};
+}
+function dp(wd,tasks,day){
+  let t=0,dn=0;const ch=wd?.checks||{};
+  tasks.forEach(tk=>{if(tk.schedule.includes(day)){t++;if(ch[`${tk.id}_${day}`])dn++;}});
+  return{t,dn,pct:t?Math.round(dn/t*100):0};
+}
+function rb(wd,girl,d){
+  const gc=d.cfg.girls[girl];
+  const rp=gp(wd,gc.tasks),sp=gp(wd,gc.specialTasks);
+  const be=rp.pct===100?gc.rewards.base:0,se=sp.pct===100?gc.rewards.special:0;
+  const pen=wd?.purpose?.penalty||0,sub=be+se,tot=Math.max(0,sub-pen);
+  return{be,se,pen,sub,tot,rp:rp.pct,sp:sp.pct};
+}
+
+/* ══ NAV ══ */
+let cu=null,cb='',cg=null,cwkk=null;
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
+function home(){cu=null;cb='';uph();show('sh');}
+function uph(){
+  const wk=cwk(),d=gd();
+  document.getElementById('hwk').textContent=`Semana ${wfmt(wk)}`;
+  ['emi','isi','aug'].forEach(g=>{
+    const gc=d.cfg.girls[g],wd=d.wks[wk]?.[g];
+    const all=[...gc.tasks,...gc.specialTasks],pr=gp(wd,all);
+    const rbd=rb(wd,g,d);
+    const pfx=g==='emi'?'em':g==='isi'?'is':'au';
+    document.getElementById(`${pfx}-meta`).textContent=`${D[g].age} años · ${pr.dn}/${pr.t} tareas · 💰$${rbd.tot.toLocaleString()}`;
+    document.getElementById(`${pfx}-bar`).style.width=pr.pct+'%';
+  });
+}
+
+/* ══ PIN ══ */
+function pin(who){
+  cu=who;cb='';
+  const cfg={sup:{n:'Supervisor',e:'🔐',s:'PIN del supervisor'},emi:{n:`¡Hola, Emi!`,e:'🌸',s:'Tu PIN secreto'},isi:{n:`¡Hola, Isi!`,e:'⭐',s:'Tu PIN secreto'},aug:{n:`¡Hola, Augusto!`,e:'🚀',s:'Tu PIN secreto'}}[who];
+  document.getElementById('pav').textContent=cfg.e;
+  document.getElementById('ptit').textContent=cfg.n;
+  document.getElementById('psub').textContent=cfg.s;
+  document.getElementById('perr').style.display='none';
+  const col=who==='sup'?'#0369A1':who==='emi'?'#DB2777':who==='isi'?'#7C3AED':'#0891B2';
+  document.querySelectorAll('.pd').forEach(d=>{d.style.color=col;d.classList.remove('on');});
+  udots();show('sp');
+}
+function udots(){for(let i=0;i<4;i++)document.getElementById(`d${i}`).classList.toggle('on',i<cb.length);}
+function pk(k){if(cb.length>=4)return;cb+=k;udots();document.getElementById('perr').style.display='none';if(cb.length===4)setTimeout(chkpin,120);}
+function pdel(){if(cb.length){cb=cb.slice(0,-1);udots();}}
+function chkpin(){
+  const d=gd();
+  const map={emi:d.cfg.pins.emi,isi:d.cfg.pins.isi,aug:d.cfg.pins.aug,sup:d.cfg.pins.sup};
+  if(cb===map[cu]){cu==='sup'?openSup():openTasks(cu);}
+  else{
+    const el=document.getElementById('perr');
+    el.textContent='❌ PIN incorrecto. Intenta de nuevo.';el.style.display='block';
+    el.style.animation='none';setTimeout(()=>el.style.animation='',10);
+    cb='';udots();
+  }
+}
+function forgotPin(){
+  const d=gd();
+  const who=cu==='sup'?'supervisor':D[cu]?.name||cu;
+  const body=`Hola!\n\n${who} olvidó su PIN en la app de tareas.\n\nPINs actuales:\n- Emi: ${d.cfg.pins.emi}\n- Isi: ${d.cfg.pins.isi}\n- Augusto: ${d.cfg.pins.aug}\n- Supervisor: ${d.cfg.pins.sup}\n`;
+  window.open(`mailto:${d.cfg.email}?subject=${encodeURIComponent(`PIN olvidado – ${who}`)}&body=${encodeURIComponent(body)}`,'_blank');
+  toast('📧 Se envió email al supervisor');
+}
+
+/* ══ TASKS SCREEN ══ */
+function openTasks(g){
+  cg=g;cwkk=cwk();
+  const dg=D[g];
+  document.getElementById('thd').style.background=D[g].g;
+  document.getElementById('thdname').textContent=`${dg.name} ${dg.emoji}`;
+  document.getElementById('thdwk').textContent=`Semana ${wfmt(cwkk)}`;
+  document.querySelectorAll('.sbf').forEach(b=>b.style.background=dg.c);
+  renderTasks();show('st');
+}
+function renderTasks(){
+  const d=gd(),wd=ew(d,cwkk,cg),gc=d.cfg.girls[cg],dg=D[cg];
+  const all=[...gc.tasks,...gc.specialTasks];
+  const ap=gp(wd,all),dayp=dp(wd,all,tdi());
+  const locked=['pending_review','approved'].includes(wd.status);
+  const rbd=rb(wd,cg,d);
+
+  // Header
+  document.getElementById('tpl').textContent=`${ap.dn} de ${ap.t} tareas`;
+  document.getElementById('tpct').textContent=ap.pct+'%';
+  document.getElementById('tpf').style.width=ap.pct+'%';
+  document.getElementById('trwd').textContent=
+    ap.pct===100?`💰 ¡Ganás $${rbd.tot.toLocaleString()}!`:`💰 Base $${gc.rewards.base.toLocaleString()} + Bono $${gc.rewards.special.toLocaleString()}`;
+
+  // Stats
+  document.getElementById('stn').innerHTML=`${dayp.dn} <span>/ ${dayp.t}</span>`;
+  document.getElementById('sts').textContent=dayp.t===0?'sin tareas hoy':dayp.dn===dayp.t?'🌟 ¡Todas hechas!':'tareas de hoy';
+  document.getElementById('stb').style.width=dayp.pct+'%';
+  document.getElementById('swn').innerHTML=`${ap.dn} <span>/ ${ap.t}</span>`;
+  document.getElementById('sws').textContent=ap.pct===100?'🌟 ¡Semana completa!':ap.pct+'% completado';
+  document.getElementById('swb').style.width=ap.pct+'%';
+
+  // Content
+  const today=tdi();
+  let html=`<div class="slabel">📋 Tareas de la semana</div><div class="twrap">${buildTable(gc.tasks,wd,today,locked,cg)}</div>`;
+  if(gc.specialTasks.length){
+    html+=`<div class="slabel">⭐ Tareas especiales</div><div class="stwrap">${buildSpecial(gc.specialTasks,wd,today,locked,cg)}</div>`;
+  }
+  // Propósito
+  const pur=wd.purpose||{};
+  html+=`<div class="slabel">🎯 Propósito de la semana</div>`;
+  if(pur.text){
+    const icons={pending:'💪',fulfilled:'✅',not_fulfilled:'❌'};
+    const msgs={pending:'¡Yo puedo lograrlo!',fulfilled:'¡Lo estoy cumpliendo! 🌟',not_fulfilled:'No cumplido esta semana'};
+    html+=`<div class="pcrd"><div class="plbl">Propósito</div><div class="ptxt">"${pur.text}"</div>
+      <div class="pst">${icons[pur.status]||'💪'} ${msgs[pur.status]||'¡Yo puedo lograrlo!'}</div>
+      ${pur.penalty>0?`<div style="font-size:11px;color:var(--rd);margin-top:4px">Penalización: -$${pur.penalty.toLocaleString()}</div>`:''}</div>`;
+  }else{
+    html+=`<div class="pcrd"><div class="plbl">Propósito</div><div class="pst" style="color:var(--mu)">El supervisor aún no definió el propósito de esta semana ⏳</div></div>`;
+  }
+  document.getElementById('tcontent').innerHTML=html;
+
+  // Status
+  const sta=document.getElementById('tstatus');
+  if(wd.status!=='pending'){
+    const ms={pending_review:['📩','¡Revisión enviada! Esperando al supervisor.'],approved:['✅',`¡Aprobado! Recompensa: $${(wd.reward||0).toLocaleString()}`],rejected:['❌',wd.note||'No aprobada. ¡La próxima lo logras!']};
+    const[ic,msg]=ms[wd.status]||['',''];
+    sta.innerHTML=`<div class="sbanner sb-${wd.status}">${ic} ${msg}</div>`;
+  }else sta.innerHTML='';
+
+  // Review btn
+  const btn=document.getElementById('rbtn');
+  btn.style.background=dg.hex;
+  if(wd.status==='pending'){btn.disabled=ap.pct<50;btn.textContent=ap.pct<50?`📩 Completa más tareas (${ap.pct}%)`:'📩 Pedir revisión al supervisor';}
+  else if(wd.status==='pending_review'){btn.disabled=true;btn.textContent='📩 Revisión solicitada ✓';btn.style.background='#9CA3AF';}
+  else{btn.disabled=true;btn.textContent=wd.status==='approved'?'✅ Semana aprobada':'❌ Semana finalizada';btn.style.background='#9CA3AF';}
+}
+
+function buildTable(tasks,wd,today,locked,girl){
+  const days=[0,1,2,3,4,5,6].filter(di=>tasks.some(t=>t.schedule.includes(di)));
+  const hd=days.map(di=>`<th class="thd2${di===today?' tdy':''}">${DS[di]}${di===today?'<div class="tpip"></div>':''}</th>`).join('');
+  const rows=tasks.map(t=>{
+    const adn=t.schedule.every(di=>wd.checks[`${t.id}_${di}`]);
+    const cols=days.map(di=>{
+      const sc=t.schedule.includes(di);const k=`${t.id}_${di}`;const ch=!!wd.checks[k];const td=di===today;
+      if(!sc)return`<td class="tdd na${td?' tbg':''}"><span class="nad">·</span></td>`;
+      const oc=locked?'':`onclick="ck('${girl}','${k}',this)"`;
+      return`<td class="tdd${td?' tbg':''}"><button class="ckb${ch?' dn':''}${locked?' lk':''}" ${oc}>${ch?'✓':''}</button></td>`;
+    }).join('');
+    return`<tr class="${adn?'adn':''}"><td class="tdname"><div class="tdni"><span class="te">${t.emoji}</span><span class="tnt">${t.name}</span></div></td>${cols}</tr>`;
+  }).join('');
+  return`<table class="ttbl"><thead><tr><th class="thn">Tarea</th>${hd}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function buildSpecial(tasks,wd,today,locked,girl){
+  return tasks.map(t=>{
+    const dn=t.schedule.filter(di=>wd.checks[`${t.id}_${di}`]).length,adn=dn===t.schedule.length;
+    const chips=t.schedule.map(di=>{
+      const k=`${t.id}_${di}`,ch=!!wd.checks[k],td=di===today;
+      const oc=locked?'':`onclick="ck('${girl}','${k}',this)"`;
+      return`<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+        <span style="font-size:9px;font-weight:800;color:${td?'var(--am)':'var(--mu)'};text-transform:uppercase">${DS[di]}</span>
+        <button class="ckb${ch?' dn':''}${locked?' lk':''}" ${oc}>${ch?'✓':''}</button></div>`;
+    }).join('');
+    return`<div style="padding:14px 14px 10px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-size:22px">${t.emoji}</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:800;color:${adn?'var(--gn)':'var(--tx)'}">${t.name}${adn?' 🌟':''}</div></div>
+        <span style="font-size:11px;font-weight:700;color:var(--am);background:var(--al);padding:2px 8px;border-radius:6px">${dn}/${t.schedule.length}</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">${chips}</div></div>`;
+  }).join('<hr style="border:none;border-top:1px solid var(--bd)">');
+}
+
+function ck(girl,key,btn){
+  const d=gd(),wd=ew(d,cwkk,girl);
+  if(['pending_review','approved'].includes(wd.status))return;
+  wd.checks[key]=!wd.checks[key];SS(d);
+  btn.classList.toggle('dn',wd.checks[key]);btn.textContent=wd.checks[key]?'✓':'';
+  // Update stats inline
+  const gc=d.cfg.girls[girl],all=[...gc.tasks,...gc.specialTasks];
+  const ap=gp(wd,all),dayp=dp(wd,all,tdi()),rbd=rb(wd,girl,d);
+  document.getElementById('tpl').textContent=`${ap.dn} de ${ap.t} tareas`;
+  document.getElementById('tpct').textContent=ap.pct+'%';
+  document.getElementById('tpf').style.width=ap.pct+'%';
+  document.getElementById('trwd').textContent=ap.pct===100?`💰 ¡Ganás $${rbd.tot.toLocaleString()}!`:`💰 Base $${gc.rewards.base.toLocaleString()} + Bono $${gc.rewards.special.toLocaleString()}`;
+  document.getElementById('stn').innerHTML=`${dayp.dn} <span>/ ${dayp.t}</span>`;
+  document.getElementById('sts').textContent=dayp.dn===dayp.t?'🌟 ¡Todas hechas!':'tareas de hoy';
+  document.getElementById('stb').style.width=dayp.pct+'%';
+  document.getElementById('swn').innerHTML=`${ap.dn} <span>/ ${ap.t}</span>`;
+  document.getElementById('sws').textContent=ap.pct===100?'🌟 ¡Semana completa!':ap.pct+'% completado';
+  document.getElementById('swb').style.width=ap.pct+'%';
+  const rbtn=document.getElementById('rbtn');
+  if(wd.status==='pending'){rbtn.disabled=ap.pct<50;rbtn.textContent=ap.pct<50?`📩 Completa más tareas (${ap.pct}%)`:'📩 Pedir revisión al supervisor';}
+  // Update row highlight
+  const row=btn.closest('tr');if(row){const tid=key.split('_')[0];const tk=gc.tasks.concat(gc.specialTasks).find(t=>t.id===tid);if(tk)row.classList.toggle('adn',tk.schedule.every(di=>wd.checks[`${tk.id}_${di}`]));}
+  if(wd.checks[key]&&ap.pct===100)setTimeout(()=>celeb(girl),300);
+}
+
+function reqReview(){
+  const d=gd(),wd=ew(d,cwkk,cg),gc=d.cfg.girls[cg],dg=D[cg];
+  const all=[...gc.tasks,...gc.specialTasks],ap=gp(wd,all);
+  if(ap.pct<50)return;
+  wd.status='pending_review';wd.reviewAt=new Date().toISOString();SS(d);
+  let body=`${dg.name} pide revisión de sus tareas.\n\nSemana: ${wfmt(cwkk)}\nProgreso: ${ap.dn}/${ap.t} (${ap.pct}%)\n\nTareas regulares:\n`;
+  gc.tasks.forEach(t=>{const dn=t.schedule.filter(di=>wd.checks[`${t.id}_${di}`]).length;body+=`  ${t.emoji} ${t.name}: ${dn}/${t.schedule.length}\n`;});
+  body+=`\nTareas especiales:\n`;
+  gc.specialTasks.forEach(t=>{const dn=t.schedule.filter(di=>wd.checks[`${t.id}_${di}`]).length;body+=`  ${t.emoji} ${t.name}: ${dn}/${t.schedule.length}\n`;});
+  window.open(`mailto:${d.cfg.email}?subject=${encodeURIComponent(`✅ Revisar tareas de ${dg.name} — ${wfmt(cwkk)}`)}&body=${encodeURIComponent(body)}`,'_blank');
+  renderTasks();toast('📩 Email enviado al supervisor');
+}
+
+/* ══ SUPERVISOR ══ */
+const PD={};
+let _supTab='rv';
+function openSup(){
+  document.getElementById('supwk').textContent=`Semana ${wfmt(cwk())}`;
+  document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('on',i===0));
+  renderRev();show('ss');
+}
+function stab(t,el){_supTab=t;document.querySelectorAll('.stab').forEach(x=>x.classList.remove('on'));el.classList.add('on');({rv:renderRev,hi:renderHist,cf:renderCfg})[t]();}
+
+function renderRev(){
+  const d=gd(),wk=cwk();let html='';
+  ['emi','isi','aug'].forEach(girl=>{
+    const wd=ew(d,wk,girl),gc=d.cfg.girls[girl],dg=D[girl];
+    const rp=gp(wd,gc.tasks),sp=gp(wd,gc.specialTasks),rbd=rb(wd,girl,d);
+    const pur=wd.purpose||{text:'',status:'pending',penalty:0};
+    const fin=['approved','rejected'].includes(wd.status);
+    const smap={pending:'⏳ Sin solicitar',pending_review:'📩 Pide revisión',approved:'✅ Aprobada',rejected:'❌ Rechazada'};
+
+    const regRows=gc.tasks.map(t=>{const dn=t.schedule.filter(di=>wd.checks[`${t.id}_${di}`]).length,tot=t.schedule.length,cls=dn===tot?'full':dn>0?'part':'none',ic=dn===tot?'✓':dn>0?'~':'✗';return`<div class="tri"><span class="trie">${t.emoji}</span><span class="trin">${t.name}</span><span class="tric">${dn}/${tot}</span><div class="trid ${cls}">${ic}</div></div>`;}).join('');
+    const spcRows=gc.specialTasks.map(t=>{const dn=t.schedule.filter(di=>wd.checks[`${t.id}_${di}`]).length,tot=t.schedule.length,cls=dn===tot?'full':dn>0?'part':'none',ic=dn===tot?'✓':dn>0?'~':'✗';return`<div class="tri"><span class="trie">${t.emoji}</span><span class="trin">${t.name}</span><span class="tric">${dn}/${tot}</span><div class="trid ${cls}">${ic}</div></div>`;}).join('');
+
+    const purEdit=`<div class="pedit">
+      <div class="petit">🎯 Propósito de la semana</div>
+      <input class="petxt" type="text" id="pt-${girl}" value="${pur.text||''}" placeholder="Ej: Buen trato con sus hermanas" onchange="upPur('${girl}','text',this.value)">
+      <div class="pebts">
+        <button class="pebt${pur.status==='fulfilled'?' sg':''}" onclick="upPur('${girl}','status','fulfilled')">✅ Cumplido</button>
+        <button class="pebt${pur.status==='not_fulfilled'?' sr':''}" onclick="upPur('${girl}','status','not_fulfilled')">❌ No cumplido</button>
+        <button class="pebt${pur.status==='pending'?' sa':''}" onclick="upPur('${girl}','status','pending')">⏳ Pendiente</button>
+      </div>
+      ${pur.status==='not_fulfilled'?`<div class="pepen"><label>Penalización ($) — máx $${rbd.sub.toLocaleString()}</label><input type="number" value="${pur.penalty||0}" min="0" max="${rbd.sub}" step="100" onchange="upPur('${girl}','penalty',Math.min(${rbd.sub},Math.max(0,parseInt(this.value)||0)))"></div>`:''}
+    </div>`;
+
+    const breakdown=`<div class="rbd">
+      <div class="rbdtit">💰 Resumen</div>
+      <div class="rbdrow"><span>📋 Tareas regulares (${rbd.rp}%)</span><span class="${rbd.be>0?'rbdg':'rbdmu'}">${rbd.be>0?`+$${rbd.be.toLocaleString()}`:'$0'}${rbd.rp===100?' ✅':''}</span></div>
+      <div class="rbdrow"><span>⭐ Tareas especiales (${rbd.sp}%)</span><span class="${rbd.se>0?'rbdg':'rbdmu'}">${rbd.se>0?`+$${rbd.se.toLocaleString()}`:'$0'}${rbd.sp===100?' ✅':''}</span></div>
+      ${rbd.pen>0?`<div class="rbdrow"><span>🎯 Penalización propósito</span><span class="rbdrd">-$${rbd.pen.toLocaleString()}</span></div>`:''}
+      <div class="rbddiv"></div>
+      <div class="rbdtot"><span>TOTAL A RECIBIR</span><span>$${rbd.tot.toLocaleString()}</span></div>
+    </div>`;
+
+    const actions=fin
+      ?`<div style="text-align:center;padding:8px;font-size:13px;color:var(--mu)">${wd.status==='approved'?`✅ Aprobada · $${(wd.reward||0).toLocaleString()}`:'❌ Rechazada'}</div>`
+      :`${purEdit}${breakdown}<div class="cfmbts">
+        <button class="bapr" onclick="cfmDec('${girl}','approved')">✅ Aprobar</button>
+        <button class="brej" onclick="cfmDec('${girl}','rejected')">❌ Rechazar</button>
+      </div>`;
+
+    html+=`<div class="rcard">
+      <div class="rcdhd"><div class="rcdav" style="background:${dg.l}">${dg.emoji}</div>
+        <div><div class="rcdnm" style="color:${dg.c}">${dg.name}</div><div class="rcdst">${smap[wd.status]||''}</div></div></div>
+      <div class="rcdprw"><span>Regulares</span><span style="font-weight:700;color:${dg.c}">${rbd.rp}%</span></div>
+      <div class="rcdpbg"><div class="rcdpf" style="background:${dg.c};width:${rbd.rp}%"></div></div>
+      <div class="trl">${regRows}</div>
+      <div class="rcdprw" style="margin-top:8px"><span>Especiales</span><span style="font-weight:700;color:var(--am)">${rbd.sp}%</span></div>
+      <div class="rcdpbg" style="margin-bottom:10px"><div class="rcdpf" style="background:var(--am);width:${rbd.sp}%"></div></div>
+      <div class="trl">${spcRows}</div>
+      ${actions}
+    </div>`;
+  });
+  document.getElementById('sbody').innerHTML=html;
+}
+
+function upPur(girl,field,value){
+  const d=gd(),wk=cwk(),wd=ew(d,wk,girl);
+  if(!wd.purpose)wd.purpose={text:'',status:'pending',penalty:0};
+  wd.purpose[field]=field==='penalty'?Math.max(0,parseInt(value)||0):value;
+  SS(d);renderRev();
+}
+
+function cfmDec(girl,dec){
+  const d=gd(),wk=cwk(),wd=ew(d,wk,girl),rbd=rb(wd,girl,d);
+  wd.status=dec;wd.reward=dec==='approved'?rbd.tot:0;wd.approvedAt=new Date().toISOString();SS(d);
+  if(dec==='approved')celeb(girl,`¡${D[girl].name} ganó $${wd.reward.toLocaleString()} esta semana!`);
+  else toast(`Semana de ${D[girl].name} rechazada`);
+  renderRev();
+}
+
+function renderHist(){
+  const d=gd(),wks=Object.keys(d.wks).sort().reverse(),cw=cwk();
+  if(!wks.length){document.getElementById('sbody').innerHTML=`<div class="empty">📅<br>Aún no hay semanas</div>`;return;}
+  let html='';
+  wks.forEach(wk=>{
+    let gl='';
+    ['emi','isi','aug'].forEach(g=>{
+      const wd=d.wks[wk]?.[g];if(!wd)return;
+      const dg=D[g],gc=d.cfg.girls[g],all=[...gc.tasks,...gc.specialTasks],pr=gp(wd,all);
+      const sm={pending:'hbp',pending_review:'hbpr',approved:'hba',rejected:'hbr'};
+      const sl={pending:'Pendiente',pending_review:'En revisión',approved:'Aprobada',rejected:'Rechazada'};
+      gl+=`<div class="histgl" style="background:${dg.l}"><div class="histglnm" style="color:${dg.c}">${dg.emoji} ${dg.name}</div>
+        <div class="histglpct" style="color:${dg.c}">${pr.pct}%</div>
+        <div class="histglrwd">${wd.status==='approved'?`$${(wd.reward||0).toLocaleString()}`:'—'}</div>
+        <div class="hbdg ${sm[wd.status]||'hbp'}">${sl[wd.status]||'—'}</div></div>`;
+    });
+    html+=`<div class="histwk"><div class="histwkhd"><div class="histwklbl">${wk===cw?'📍 Esta semana':'Semana'}</div><div class="histwkdt">${wfmt(wk)}</div></div><div class="histgls">${gl}</div></div>`;
+  });
+  document.getElementById('sbody').innerHTML=html;
+}
+
+/* ══ CONFIG / TASK EDITOR ══ */
+let editGirl='emi';
+function renderCfg(){
+  const d=gd();
+  document.getElementById('sbody').innerHTML=`
+    <div class="cfgsec">
+      <div class="cfgtit">🔑 PINs</div>
+      <div class="cfggrp">
+        <div class="cfgit"><label>PIN de Emi 🌸</label><input type="number" id="pe" value="${d.cfg.pins.emi}" maxlength="4"></div>
+        <div class="cfgit"><label>PIN de Isi ⭐</label><input type="number" id="pi" value="${d.cfg.pins.isi}" maxlength="4"></div>
+        <div class="cfgit"><label>PIN de Augusto 🚀</label><input type="number" id="pa" value="${d.cfg.pins.aug}" maxlength="4"></div>
+        <div class="cfgit"><label>PIN supervisor</label><input type="number" id="ps" value="${d.cfg.pins.sup}" maxlength="4"></div>
+        <div class="cfgit"><label>Email</label><input type="email" id="eml" value="${d.cfg.email}"></div>
+      </div>
+      <button class="bsave" onclick="savePins()">💾 Guardar PINs y email</button>
+      <div class="cfgdiv"></div>
+      <div class="cfgtit">📝 Editor de tareas</div>
+      <div class="girl-toggle">
+        <button class="gtog${editGirl==='emi'?' on':''}" onclick="editGirl='emi';renderCfg()">🌸 Emi</button>
+        <button class="gtog${editGirl==='isi'?' on':''}" onclick="editGirl='isi';renderCfg()">⭐ Isi</button>
+        <button class="gtog${editGirl==='aug'?' on':''}" onclick="editGirl='aug';renderCfg()">🚀 Augusto</button>
+      </div>
+      ${buildTaskEditor(editGirl,d)}
+      <div class="cfgdiv"></div>
+      <div class="cfgtit" style="color:var(--rd)">⚠️ Zona peligrosa</div>
+      <button class="bdng" onclick="resetWk()">🔄 Resetear semana actual</button>
+      <button class="bdng" onclick="resetAll()">🗑️ Borrar todos los datos</button>
+    </div>`;
+}
+
+function buildTaskEditor(girl,d){
+  const gc=d.cfg.girls[girl],dg=D[girl];
+  const mkRow=(t,type,idx)=>{
+    const dbtns=[0,1,2,3,4,5,6].map(di=>{
+      const on=t.schedule.includes(di);
+      return`<button class="dtog" style="${on?`background:${dg.hex};border-color:${dg.hex};color:#fff`:''}" onclick="tday('${girl}','${type}',${idx},${di})" title="${DF[di]}">${DS[di]}</button>`;
+    }).join('');
+    return`<div class="terow">
+      <input id="emj-${girl}-${type}-${idx}" class="teemj" value="${t.emoji}" maxlength="2" onblur="tfield('${girl}','${type}',${idx},'emoji',this.value)">
+      <input id="nm-${girl}-${type}-${idx}" class="tenm" value="${t.name}" placeholder="Nombre" onblur="tfield('${girl}','${type}',${idx},'name',this.value)">
+      <div class="tedays">${dbtns}</div>
+      <button class="tedel" onclick="tdel('${girl}','${type}',${idx})">🗑️</button>
+    </div>`;
+  };
+  const regRows=gc.tasks.map((t,i)=>mkRow(t,'reg',i)).join('');
+  const spcRows=gc.specialTasks.map((t,i)=>mkRow(t,'spc',i)).join('');
+  return`<div class="tecrd">
+    <div class="tehdr" style="background:${dg.l}"><span style="font-size:22px">${dg.emoji}</span><span style="font-weight:800;color:${dg.c}">${dg.name}</span></div>
+    <div class="tesec" style="border-bottom:1px solid var(--bd)">
+      <div class="testit">📋 Tareas regulares <span class="tebdg">${gc.tasks.length}/5</span> <span style="font-size:10px;color:var(--mu)">→ Mesada base</span></div>
+      ${regRows}
+      ${gc.tasks.length<5?`<button class="addtsk" onclick="tadd('${girl}','reg')">+ Agregar tarea regular</button>`:'<div style="font-size:11px;color:var(--mu);padding:4px">Máx. 5 tareas</div>'}
+    </div>
+    <div class="tesec" style="border-bottom:1px solid var(--bd)">
+      <div class="testit">⭐ Tareas especiales <span class="tebdg" style="background:var(--al);color:var(--am)">${gc.specialTasks.length}/3</span> <span style="font-size:10px;color:var(--mu)">→ Bono especial</span></div>
+      ${spcRows}
+      ${gc.specialTasks.length<3?`<button class="addtsk sp" onclick="tadd('${girl}','spc')">+ Agregar tarea especial</button>`:'<div style="font-size:11px;color:var(--mu);padding:4px">Máx. 3 tareas</div>'}
+    </div>
+    <div class="tesec" style="border-bottom:1px solid var(--bd)">
+      <div class="testit">💰 Recompensas</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="cfgit"><label>Mesada base ($)</label><input id="rwd-${girl}-base" type="number" value="${gc.rewards.base}" min="0" step="100" onblur="trwd2('${girl}','base',this.value)"></div>
+        <div class="cfgit"><label>Bono especial ($)</label><input id="rwd-${girl}-spc" type="number" value="${gc.rewards.special}" min="0" step="100" onblur="trwd2('${girl}','special',this.value)"></div>
+      </div>
+    </div>
+    <div class="tesec" style="border-bottom:1px solid var(--bd)">
+      <div class="testit">🎯 Propósito de la semana</div>
+      <div class="cfgit">
+        <label style="font-size:11px;color:var(--mu)">Se cargará automáticamente cada semana nueva</label>
+        <input id="defpur-${girl}" type="text" value="${gc.defaultPurpose||''}" placeholder="Ej: Buen trato con sus hermanas" style="width:100%;box-sizing:border-box">
+      </div>
+    </div>
+    <div class="tesec" style="text-align:center">
+      <button onclick="saveCfgCard('${girl}')" style="background:${dg.hex};color:#fff;border:none;border-radius:10px;padding:10px 28px;font-size:14px;font-weight:700;cursor:pointer">💾 Guardar cambios</button>
+    </div>
+  </div>`;
+}
+
+function tday(girl,type,idx,di){
+  const d=gd(),tasks=type==='spc'?d.cfg.girls[girl].specialTasks:d.cfg.girls[girl].tasks,t=tasks[idx];
+  const pos=t.schedule.indexOf(di);pos>=0?t.schedule.splice(pos,1):t.schedule.push(di);
+  t.schedule.sort((a,b)=>a-b);SS(d);renderCfg();
+}
+function tfield(girl,type,idx,field,val){
+  const d=gd(),tasks=type==='spc'?d.cfg.girls[girl].specialTasks:d.cfg.girls[girl].tasks;
+  tasks[idx][field]=val;SS(d);
+}
+function saveCfgCard(girl){
+  const d=gd(),gc=d.cfg.girls[girl];
+  gc.tasks.forEach((t,i)=>{
+    const emj=document.getElementById(`emj-${girl}-reg-${i}`);
+    const nm=document.getElementById(`nm-${girl}-reg-${i}`);
+    if(emj)t.emoji=emj.value;
+    if(nm)t.name=nm.value;
+  });
+  gc.specialTasks.forEach((t,i)=>{
+    const emj=document.getElementById(`emj-${girl}-spc-${i}`);
+    const nm=document.getElementById(`nm-${girl}-spc-${i}`);
+    if(emj)t.emoji=emj.value;
+    if(nm)t.name=nm.value;
+  });
+  const rb=document.getElementById(`rwd-${girl}-base`);
+  const rs=document.getElementById(`rwd-${girl}-spc`);
+  if(rb)gc.rewards.base=parseInt(rb.value)||0;
+  if(rs)gc.rewards.special=parseInt(rs.value)||0;
+  const pur=document.getElementById(`defpur-${girl}`);
+  if(pur)gc.defaultPurpose=pur.value.trim();
+  SS(d);toast('✅ Perfil guardado');
+}
+function tdel(girl,type,idx){
+  if(!confirm('¿Eliminar esta tarea?'))return;
+  const d=gd(),tasks=type==='spc'?d.cfg.girls[girl].specialTasks:d.cfg.girls[girl].tasks;
+  tasks.splice(idx,1);SS(d);renderCfg();
+}
+function tadd(girl,type){
+  const d=gd(),tasks=type==='spc'?d.cfg.girls[girl].specialTasks:d.cfg.girls[girl].tasks,max=type==='spc'?3:5;
+  if(tasks.length>=max){toast(`Máximo ${max} tareas`);return;}
+  tasks.push({id:`${girl[0]}${type[0]}${Date.now()}`,name:'Nueva tarea',emoji:'✅',schedule:[0,1,2,3,4]});
+  SS(d);renderCfg();
+}
+function trwd2(girl,type,val){
+  const d=gd();d.cfg.girls[girl].rewards[type]=parseInt(val)||0;SS(d);
+}
+function savePins(){
+  const d=gd(),pe=document.getElementById('pe').value.trim(),pi=document.getElementById('pi').value.trim(),pa=document.getElementById('pa').value.trim(),ps=document.getElementById('ps').value.trim();
+  if([pe,pi,pa,ps].some(p=>/^\d{4}$/.test(p)===false)){toast('PINs deben ser de 4 dígitos');return;}
+  d.cfg.pins={emi:pe,isi:pi,aug:pa,sup:ps};d.cfg.email=document.getElementById('eml').value.trim()||d.cfg.email;
+  SS(d);toast('✅ Guardado');
+}
+function resetWk(){if(!confirm('¿Resetear semana actual?'))return;const d=gd();delete d.wks[cwk()];SS(d);toast('🔄 Semana reseteada');renderRev();}
+function resetAll(){if(!confirm('¿Borrar TODOS los datos?'))return;localStorage.removeItem('ta');toast('🗑️ Datos borrados');home();}
+
+/* ══ CELEBRATE ══ */
+function celeb(girl,msg){
+  const dg=D[girl];
+  document.getElementById('cemj').textContent=girl==='emi'?'🎀':girl==='isi'?'🌟':'🚀';
+  document.getElementById('ctit').textContent=`¡Felicitaciones, ${dg.name}!`;
+  document.getElementById('cmsg').textContent=msg||'¡Completaste todas tus tareas!\nPedí la revisión para ganar tu recompensa.';
+  document.getElementById('cbtn').style.background=dg.hex;
+  document.getElementById('cov').classList.add('on');
+  confetti();
+}
+function closeCeleb(){document.getElementById('cov').classList.remove('on');}
+function confetti(){
+  const w=document.getElementById('ccw');w.innerHTML='';
+  const cs=['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#FF6BB5','#A855F7','#F59E0B'];
+  for(let i=0;i<70;i++){const c=document.createElement('div');c.className='cc';c.style.left=Math.random()*100+'vw';c.style.background=cs[Math.floor(Math.random()*cs.length)];c.style.setProperty('--d',(2+Math.random()*1.5)+'s');c.style.setProperty('--dl',(Math.random()*.9)+'s');c.style.borderRadius=Math.random()>.5?'50%':'2px';const sz=7+Math.random()*8+'px';c.style.width=c.style.height=sz;w.appendChild(c);}
+  setTimeout(()=>w.innerHTML='',5000);
+}
+
+/* ══ TOAST ══ */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2800);}
+
+function refreshUI(){
+  const a=document.querySelector('.scr.on');if(!a)return;
+  if(a.id==='sh')uph();
+  else if(a.id==='st'&&cg)renderTasks();
+  else if(a.id==='ss')({rv:renderRev,hi:renderHist,cf:renderCfg})[_supTab]();
+}
+window.addEventListener('DOMContentLoaded',async()=>{
+  await initFirebase();
+  document.getElementById('loading').style.display='none';
+  gd();uph();
+  _ref.on('value',snap=>{
+    if(Date.now()-_lastWrite<3000)return;
+    const d=snap.val();if(d){_cache=d;refreshUI();}
+  });
+});
+</script>
+</body>
+</html>

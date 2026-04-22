@@ -508,7 +508,7 @@ function rb(wd,girl,d){
 /* ══ NAV ══ */
 let cu=null,cb='',cg=null,cwkk=null;
 function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
-function home(){cu=null;cb='';uph();show('sh');}
+function home(){cu=null;cb='';closeCeleb();uph();show('sh');}
 function uph(){
   const wk=cwk(),d=gd();
   document.getElementById('hwk').textContent=`Semana ${wfmt(wk)}`;
@@ -540,7 +540,7 @@ function pdel(){if(cb.length){cb=cb.slice(0,-1);udots();}}
 function chkpin(){
   const d=gd();
   const map={emi:d.cfg.pins.emi,isi:d.cfg.pins.isi,aug:d.cfg.pins.aug,sup:d.cfg.pins.sup};
-  if(cb===map[cu]){cu==='sup'?openSup():openTasks(cu);}
+  if(cb===map[cu]){cb='';cu==='sup'?openSup():openTasks(cu);}
   else{
     const el=document.getElementById('perr');
     el.textContent='❌ PIN incorrecto. Intenta de nuevo.';el.style.display='block';
@@ -963,8 +963,12 @@ window.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('loading').style.display='none';
   gd();uph();
   _ref.on('value',snap=>{
-    if(Date.now()-_lastWrite<3000)return;
-    const d=snap.val();if(d){_cache=d;refreshUI();}
+    try{
+      if(Date.now()-_lastWrite<3000)return;
+      const active=document.querySelector('.scr.on');
+      if(active&&active.id==='sp')return;
+      const d=snap.val();if(d){_cache=d;refreshUI();}
+    }catch(e){console.error('Firebase sync error:',e);}
   });
 });
 </script>
